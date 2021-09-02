@@ -11,8 +11,10 @@ func test(c *gin.Context) {
 }
 
 func main() {
+
+	lib.MatchDisease("hello")
+
 	router := gin.Default()
 	router.GET("/", test)
-
 	router.Run("localhost:8080")
 }

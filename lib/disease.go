@@ -4,6 +4,8 @@ import (
 	"fmt"
 )
 
-func matchDisease() {
-	fmt.Println("disease")
+func MatchDisease(disease string) string {
+	message := fmt.Sprintf("test")
+	fmt.Println("gaming")
+	return message
 }
