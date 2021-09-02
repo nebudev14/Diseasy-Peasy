@@ -2,6 +2,7 @@ package lib
 
 import (
 	"fmt"
+
 )
 
 func MatchDisease(disease string) string {
