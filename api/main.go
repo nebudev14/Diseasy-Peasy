@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"github.com/gin-gonic/gin"
 	"github.com/NebuDev14/Diseasy-Peasy/lib"
+
 )
 
 func test(c *gin.Context) {
@@ -11,6 +12,9 @@ func test(c *gin.Context) {
 }
 
 func main() {
+
+	lib.MatchDisease("yes")
+	
 
 	router := gin.Default()
 	router.GET("/", test)
