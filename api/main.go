@@ -1,7 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/NebuDev14/Diseasy-Peasy/lib"
 
@@ -13,12 +15,12 @@ func test(c *gin.Context) {
 
 func main() {
 
-	sypmtoms := []string {"pain", "bloody nose"}
+	// sypmtoms := []string {"pain", "bloody nose"}
 
-	lib.CreateDisease("test2", "heart", sypmtoms)
+	fmt.Println(lib.FindDiseaseByPart("heart")[0])
 	
 
-	router := gin.Default()
-	router.GET("/", test)
-	router.Run("localhost:8080")
+	// router := gin.Default()
+	// router.GET("/", test)
+	// router.Run("localhost:8080")
 }
