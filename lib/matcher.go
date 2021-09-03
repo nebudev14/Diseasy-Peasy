@@ -8,15 +8,12 @@ import (
 )
 
 func MatchDisease(disease string) string {
-	if err := run(); err != nil {
-        panic(err)
-    }
 	message := fmt.Sprintf("test")
 	fmt.Println("gaming")
 	return message
 }
 
-func run() error { 
+func CreateDisease(name string, part string, symptoms []string) error { 
 	client := db.NewClient()
 	if err := client.Prisma.Connect(); err != nil {
 		return err
@@ -30,12 +27,11 @@ func run() error {
 
 	ctx := context.Background()
 
-	Symptoms := []string {"coughing", "swelling", "pain"}
 	
 	newDisease, err := client.Disease.CreateOne(
-		db.Disease.Name.Set("test1"),
-		db.Disease.Part.Set("heart"),
-		db.Disease.Symptoms.Set(Symptoms),
+		db.Disease.Name.Set(name),
+		db.Disease.Part.Set(part),
+		db.Disease.Symptoms.Set(symptoms),
 	).Exec(ctx)
 
 	if err != nil {

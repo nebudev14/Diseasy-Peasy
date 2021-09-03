@@ -13,7 +13,9 @@ func test(c *gin.Context) {
 
 func main() {
 
-	lib.MatchDisease("yes")
+	sypmtoms := []string {"pain", "bloody nose"}
+
+	lib.CreateDisease("test2", "heart", sypmtoms)
 	
 
 	router := gin.Default()
