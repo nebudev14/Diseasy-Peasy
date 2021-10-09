@@ -13,7 +13,6 @@ func MatchDisease(disease string) string {
 	return message
 }
 
-
 func CreateDisease(name string, part string, symptoms []string) error { 
 	client := db.NewClient()
 	if err := client.Prisma.Connect(); err != nil {
@@ -64,5 +63,28 @@ func FindDiseaseByPart(part string) [] db.DiseaseModel {
 	}
 
 	return diseases
+}
 
+func FindDiseaseByName(name string) *db.DiseaseModel {
+	client := db.NewClient()
+	if err := client.Prisma.Connect(); err != nil {
+		panic(err)
+	}
+
+	defer func() {
+		if err := client.Prisma.Disconnect(); err != nil {
+			panic(err)
+		}
+	}()
+
+	ctx := context.Background()
+	disease, err := client.Disease.FindUnique(
+		db.Disease.Name.Equals(name),
+	).Exec(ctx)
+
+	if err != nil {
+		panic(err)
+	}
+
+	return disease
 }

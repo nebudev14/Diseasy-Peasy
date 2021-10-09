@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -9,19 +8,25 @@ import (
 
 )
 
-func test(c *gin.Context) {
-	c.IndentedJSON(http.StatusOK, "gaming")
+func getDiseaseByPart(c *gin.Context) {
+	part := c.Param("part")
+	disease := lib.FindDiseaseByPart(part)
+	c.IndentedJSON(http.StatusOK, disease)
+}
+
+func getDiseaseByName(c *gin.Context) {
+	name := c.Param("name")
+	disease := lib.FindDiseaseByName(name)
+	c.IndentedJSON(http.StatusOK, disease)
 }
 
 func main() {
 
-	// sypmtoms := []string {"pain", "bloody nose"}
-
-	fmt.Println(lib.FindDiseaseByPart("heart")[0].Symptoms[0])
-	fmt.Println(lib.FindDiseaseByName("test1").Part)
+	// fmt.Println(lib.FindDiseaseByPart("heart")[0].Symptoms[0])
+	// fmt.Println(lib.FindDiseaseByName("test1").Part)
 	
-
-	// router := gin.Default()
-	// router.GET("/", test)
-	// router.Run("localhost:8080")
+	router := gin.Default()
+	router.GET("/parts/:part", getDiseaseByPart)
+	router.GET("/name/:name", getDiseaseByName)
+	router.Run("localhost:8080")
 }
