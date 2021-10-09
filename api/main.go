@@ -17,7 +17,8 @@ func main() {
 
 	// sypmtoms := []string {"pain", "bloody nose"}
 
-	fmt.Println(lib.FindDiseaseByPart("heart")[0])
+	fmt.Println(lib.FindDiseaseByPart("heart")[0].Symptoms[0])
+	fmt.Println(lib.FindDiseaseByName("test1").Part)
 	
 
 	// router := gin.Default()
