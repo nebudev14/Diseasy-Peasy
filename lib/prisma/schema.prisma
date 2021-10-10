@@ -10,5 +10,10 @@ generator db {
 model Disease {
     name        String  @id
     part        String
-    symptoms    String[]
+    symptoms    Symptoms[]
+}
+
+model Symptoms {
+    name        String  @id 
+    disease     Disease[]
 }
