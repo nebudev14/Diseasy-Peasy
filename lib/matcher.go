@@ -61,22 +61,12 @@ func CreateSymptom(name string, diseaseName string) error {
 		),
 	).Exec(ctx)
 
-	updateDisease, err := client.Disease.FindUnique(
-		db.Disease.Name.Equals(diseaseName),
-	).Update(
-		db.Disease.Symptoms.Link(
-			db.Symptoms.Name.Equals(name),
-		),
-	).Exec(ctx)
 
 	if err != nil {
 		panic(err)
 	}
 
 	fmt.Println(newSymptom)
-	fmt.Println("------")
-	fmt.Println(updateDisease)
-
 	return nil
 }
 
@@ -96,6 +86,8 @@ func FindSymptom(name string) *db.SymptomsModel {
 	
 	symptom, err := client.Symptoms.FindUnique(
 		db.Symptoms.Name.Equals(name),
+	).With(
+		db.Symptoms.Disease.Fetch(),
 	).Exec(ctx)
 
 	if err != nil {
@@ -121,6 +113,8 @@ func FindDiseaseByPart(part string) [] db.DiseaseModel {
 	
 	diseases, err := client.Disease.FindMany(
 		db.Disease.Part.Equals(part),
+	).With(
+		db.Disease.Symptoms.Fetch(),
 	).Exec(ctx)
 	if err != nil {
 		panic(err)
@@ -144,6 +138,8 @@ func FindDiseaseByName(name string) *db.DiseaseModel {
 	ctx := context.Background()
 	disease, err := client.Disease.FindUnique(
 		db.Disease.Name.Equals(name),
+	).With(
+		db.Disease.Symptoms.Fetch(),
 	).Exec(ctx)
 
 	if err != nil {

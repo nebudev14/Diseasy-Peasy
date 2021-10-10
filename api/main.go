@@ -31,7 +31,7 @@ func main() {
 
 	fmt.Println(lib.FindDiseaseByName("test2"))
 	// fmt.Println(lib.FindDiseaseBySymptoms("test1"))
-	// lib.CreateSymptom("swelling2", "test2")
+	lib.CreateSymptom("vomit", "test1")
 	router := gin.Default()
 	router.GET("/parts/:part", getDiseaseByPart)
 	router.GET("/name/:name", getDiseaseByName)
