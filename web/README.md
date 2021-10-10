@@ -1,6 +1,6 @@
 # web
 
-The website for Diseasy-Peasy
+The website for Diseasy-Peasy. Built using Next.js
 
 ## Clone this website to your computer
 
@@ -11,7 +11,6 @@ Download the code to your machine using:
 Change directories:
 
     $ cd web
-
 
 Install dependencies:
  

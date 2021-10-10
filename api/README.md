@@ -1,6 +1,6 @@
 # api
 
-The API for Diseasy-Peasy
+The API for Diseasy-Peasy. Built with Go and Gin.
 
 ## Clone this code to your computer
 

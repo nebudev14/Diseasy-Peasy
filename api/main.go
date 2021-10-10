@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"net/http"
-
 	"github.com/gin-gonic/gin"
 	"github.com/NebuDev14/Diseasy-Peasy/lib"
 
@@ -31,7 +30,7 @@ func main() {
 
 	fmt.Println(lib.FindDiseaseByName("test2"))
 	// fmt.Println(lib.FindDiseaseBySymptoms("test1"))
-	lib.CreateSymptom("vomit", "test1")
+	// lib.CreateSymptom("vomit", "test1")
 	router := gin.Default()
 	router.GET("/parts/:part", getDiseaseByPart)
 	router.GET("/name/:name", getDiseaseByName)

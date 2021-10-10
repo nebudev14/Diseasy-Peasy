@@ -3,7 +3,6 @@ package lib
 import (
 	"context"
 	"fmt"
-	
 	"github.com/NebuDev14/Diseasy-Peasy/lib/prisma/db"
 )
 
@@ -61,7 +60,6 @@ func CreateSymptom(name string, diseaseName string) error {
 		),
 	).Exec(ctx)
 
-
 	if err != nil {
 		panic(err)
 	}
@@ -116,6 +114,7 @@ func FindDiseaseByPart(part string) [] db.DiseaseModel {
 	).With(
 		db.Disease.Symptoms.Fetch(),
 	).Exec(ctx)
+
 	if err != nil {
 		panic(err)
 	}
