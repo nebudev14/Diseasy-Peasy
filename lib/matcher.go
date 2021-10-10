@@ -54,22 +54,55 @@ func CreateSymptom(name string, diseaseName string) error {
 
 	ctx := context.Background()
 
-	newDisease, err := client.Symptoms.CreateOne(
+	newSymptom, err := client.Symptoms.CreateOne(
 		db.Symptoms.Name.Set(name),
 		db.Symptoms.Disease.Link(
 			db.Disease.Name.Equals(diseaseName),
 		),
 	).Exec(ctx)
 
-	// code to connect disease to symptom (other way around)
+	updateDisease, err := client.Disease.FindUnique(
+		db.Disease.Name.Equals(diseaseName),
+	).Update(
+		db.Disease.Symptoms.Link(
+			db.Symptoms.Name.Equals(name),
+		),
+	).Exec(ctx)
 
 	if err != nil {
 		panic(err)
 	}
 
-	fmt.Println(newDisease)
+	fmt.Println(newSymptom)
+	fmt.Println("------")
+	fmt.Println(updateDisease)
 
 	return nil
+}
+
+func FindSymptom(name string) *db.SymptomsModel {
+	client := db.NewClient()
+	if err := client.Prisma.Connect(); err != nil {
+		panic(err)
+	}
+
+	defer func() {
+		if err := client.Prisma.Disconnect(); err != nil {
+			panic(err)
+		}
+	}()
+
+	ctx := context.Background()
+	
+	symptom, err := client.Symptoms.FindUnique(
+		db.Symptoms.Name.Equals(name),
+	).Exec(ctx)
+
+	if err != nil {
+		panic(err)
+	}
+
+	return symptom
 }
 
 func FindDiseaseByPart(part string) [] db.DiseaseModel {
