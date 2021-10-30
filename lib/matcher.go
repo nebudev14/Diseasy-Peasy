@@ -6,7 +6,22 @@ import (
 	"github.com/NebuDev14/Diseasy-Peasy/lib/prisma/db"
 )
 
-func MatchDisease(disease string) string {
+func MatchDisease(part string, symptoms []db.DiseaseModel) string {
+	// client := db.NewClient()
+	// if err := client.Prisma.Connect(); err != nil {
+	// 	return err
+	// }
+
+	// defer func() {
+	// 	if err := client.Prisma.Disconnect(); err != nil {
+	// 		panic(err)
+	// 	}
+	// }()
+
+	// ctx := context.Background()
+	// symptomsFetch, err := client.Symptoms.
+	
+
 	message := fmt.Sprintf("test")
 	fmt.Println("gaming")
 	return message
@@ -52,6 +67,7 @@ func CreateSymptom(name string, diseaseName string) error {
 	}()
 
 	ctx := context.Background()
+
 
 	newSymptom, err := client.Symptoms.CreateOne(
 		db.Symptoms.Name.Set(name),

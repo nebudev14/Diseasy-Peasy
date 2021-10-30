@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"github.com/gin-gonic/gin"
 	"github.com/NebuDev14/Diseasy-Peasy/lib"
-
 )
 
 func getDiseaseByPart(c *gin.Context) {
@@ -27,7 +26,7 @@ func getSymptom(c *gin.Context) {
 }
 
 func main() {
-
+	
 	fmt.Println(lib.FindDiseaseByName("test2"))
 	// fmt.Println(lib.FindDiseaseBySymptoms("test1"))
 	// lib.CreateSymptom("vomit", "test1")
