@@ -27,7 +27,7 @@ func MatchDisease(part string, symptoms []db.DiseaseModel) string {
 	return message
 }
 
-func CreateDisease(name string, part string) error { 
+func CreateDisease(name string, part string, symptoms []string) error { 
 	client := db.NewClient()
 	if err := client.Prisma.Connect(); err != nil {
 		return err
@@ -44,6 +44,7 @@ func CreateDisease(name string, part string) error {
 	newDisease, err := client.Disease.CreateOne(
 		db.Disease.Name.Set(name),
 		db.Disease.Part.Set(part),
+		db.Disease.Symptoms.Set(symptoms),
 	).Exec(ctx)
 
 	if err != nil {
@@ -54,62 +55,7 @@ func CreateDisease(name string, part string) error {
 	return nil
 }
 
-func CreateSymptom(name string, diseaseName string) error {
-	client := db.NewClient()
-	if err := client.Prisma.Connect(); err != nil {
-		return err
-	}
 
-	defer func() {
-		if err := client.Prisma.Disconnect(); err != nil {
-			panic(err)
-		}
-	}()
-
-	ctx := context.Background()
-
-
-	newSymptom, err := client.Symptoms.CreateOne(
-		db.Symptoms.Name.Set(name),
-		db.Symptoms.Disease.Link(
-			db.Disease.Name.Equals(diseaseName),
-		),
-	).Exec(ctx)
-
-	if err != nil {
-		panic(err)
-	}
-
-	fmt.Println(newSymptom)
-	return nil
-}
-
-func FindSymptom(name string) *db.SymptomsModel {
-	client := db.NewClient()
-	if err := client.Prisma.Connect(); err != nil {
-		panic(err)
-	}
-
-	defer func() {
-		if err := client.Prisma.Disconnect(); err != nil {
-			panic(err)
-		}
-	}()
-
-	ctx := context.Background()
-	
-	symptom, err := client.Symptoms.FindUnique(
-		db.Symptoms.Name.Equals(name),
-	).With(
-		db.Symptoms.Disease.Fetch(),
-	).Exec(ctx)
-
-	if err != nil {
-		panic(err)
-	}
-
-	return symptom
-}
 
 func FindDiseaseByPart(part string) [] db.DiseaseModel {
 	client := db.NewClient()
@@ -127,8 +73,6 @@ func FindDiseaseByPart(part string) [] db.DiseaseModel {
 	
 	diseases, err := client.Disease.FindMany(
 		db.Disease.Part.Equals(part),
-	).With(
-		db.Disease.Symptoms.Fetch(),
 	).Exec(ctx)
 
 	if err != nil {
@@ -153,8 +97,6 @@ func FindDiseaseByName(name string) *db.DiseaseModel {
 	ctx := context.Background()
 	disease, err := client.Disease.FindUnique(
 		db.Disease.Name.Equals(name),
-	).With(
-		db.Disease.Symptoms.Fetch(),
 	).Exec(ctx)
 
 	if err != nil {
@@ -164,28 +106,28 @@ func FindDiseaseByName(name string) *db.DiseaseModel {
 	return disease
 }
 
-// func FindDiseaseBySymptoms(symptoms string) [] db.DiseaseModel {
-// 	client := db.NewClient()
-// 	if err := client.Prisma.Connect(); err != nil {
-// 		panic(err)
-// 	}
+func FindDiseaseBySymptoms(symptoms []string) [] db.DiseaseModel {
+	client := db.NewClient()
+	if err := client.Prisma.Connect(); err != nil {
+		panic(err)
+	}
 
-// 	defer func() {
-// 		if err := client.Prisma.Disconnect(); err != nil {
-// 			panic(err)
-// 		}
-// 	}()
+	defer func() {
+		if err := client.Prisma.Disconnect(); err != nil {
+			panic(err)
+		}
+	}()
 
-// 	ctx := context.Background()
+	ctx := context.Background()
 
-// 	disease, err := client.Disease.FindMany(
-// 		db.Disease.Symptoms.Contains("pain"),
-// 	).Exec(ctx)
+	disease, err := client.Disease.FindMany(
+		db.Disease.Symptoms.HasSome(symptoms),
+	).Exec(ctx)
 
 	
-// 	if err != nil {
-// 		panic(err)
-// 	}
+	if err != nil {
+		panic(err)
+	}
 
-// 	return disease
-// }
+	return disease
+}

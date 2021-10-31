@@ -13,26 +13,28 @@ func getDiseaseByPart(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, disease)
 }
 
+
 func getDiseaseByName(c *gin.Context) {
 	name := c.Param("name")
 	disease := lib.FindDiseaseByName(name)
 	c.IndentedJSON(http.StatusOK, disease)
 }
 
-func getSymptom(c *gin.Context) {
-	name := c.Param("name")
-	symptom := lib.FindSymptom(name)
-	c.IndentedJSON(http.StatusOK, symptom)
-}
+// func getSymptom(c *gin.Context) {
+// 	name := c.Param("name")
+// 	symptom := lib.FindSymptom(name)
+// 	c.IndentedJSON(http.StatusOK, symptom)
+// }
 
 func main() {
 	
 	fmt.Println(lib.FindDiseaseByName("test2"))
-	// fmt.Println(lib.FindDiseaseBySymptoms("test1"))
-	// lib.CreateSymptom("vomit", "test1")
+	symps := []string{"memory loss", "pain"};
+	lib.CreateDisease("Alzheimers", "Brain", symps)
+	fmt.Println(lib.FindDiseaseBySymptoms(symps))
 	router := gin.Default()
 	router.GET("/parts/:part", getDiseaseByPart)
 	router.GET("/name/:name", getDiseaseByName)
-	router.GET("/symptom/:name", getSymptom)
+	// router.GET("/symptom/:name", getSymptom)
 	router.Run("localhost:8080")
 }
