@@ -26,24 +26,23 @@ func getDiseaseByName(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, disease)
 }
 
-func getSymptom(c *gin.Context) {
+func getDiseaseBySymptoms(c *gin.Context) {
 	jsonData, err := ioutil.ReadAll(c.Request.Body)
 	if err != nil { fmt.Println(err) }
 	var data SymptomQuery
 	json.Unmarshal(jsonData, &data)
-	fmt.Println(data.Symptoms[0])
+	disease := lib.FindDiseaseBySymptoms(data.Symptoms)
 	
-	c.IndentedJSON(http.StatusOK, "no")
+	c.IndentedJSON(http.StatusOK, disease)
 }
 
 func main() {
-	fmt.Println(lib.FindDiseaseByName("test2"))
-	symps := []string{"memory loss", "pain"};
-	lib.CreateDisease("Alzheimers", "Brain", symps)
-	fmt.Println(lib.FindDiseaseBySymptoms(symps))
+	symps := []string{"pain", "weak bones"};
+	lib.CreateDisease("osteoporosis", "bones", symps)
+	
 	router := gin.Default()
 	router.GET("/parts/:part", getDiseaseByPart)
 	router.GET("/name/:name", getDiseaseByName)
-	// router.GET("/symptom/:name", getSymptom)
+	router.GET("/symptoms", getDiseaseBySymptoms)
 	router.Run("localhost:8080")
 }
