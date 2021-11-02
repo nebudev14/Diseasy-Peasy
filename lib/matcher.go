@@ -6,28 +6,7 @@ import (
 	"github.com/NebuDev14/Diseasy-Peasy/lib/prisma/db"
 )
 
-func MatchDisease(part string, symptoms []db.DiseaseModel) string {
-	// client := db.NewClient()
-	// if err := client.Prisma.Connect(); err != nil {
-	// 	return err
-	// }
-
-	// defer func() {
-	// 	if err := client.Prisma.Disconnect(); err != nil {
-	// 		panic(err)
-	// 	}
-	// }()
-
-	// ctx := context.Background()
-	// symptomsFetch, err := client.Symptoms.
-	
-
-	message := fmt.Sprintf("test")
-	fmt.Println("gaming")
-	return message
-}
-
-func CreateDisease(name string, part string, symptoms []string) error { 
+func CreateDisease(name string, part string, symptoms []string) error {
 	client := db.NewClient()
 	if err := client.Prisma.Connect(); err != nil {
 		return err
@@ -55,7 +34,13 @@ func CreateDisease(name string, part string, symptoms []string) error {
 	return nil
 }
 
+func MatchDisease(part string, symptoms []string) {
+	diseasesBySymps := FindDiseaseBySymptoms(symptoms)
+	var disease db.DiseaseModel[]
+	for i, s := range db.DiseaseModel {
 
+	}
+}
 
 func FindDiseaseByPart(part string) [] db.DiseaseModel {
 	client := db.NewClient()
@@ -70,7 +55,7 @@ func FindDiseaseByPart(part string) [] db.DiseaseModel {
 	}()
 
 	ctx := context.Background()
-	
+
 	diseases, err := client.Disease.FindMany(
 		db.Disease.Part.Equals(part),
 	).Exec(ctx)
@@ -124,7 +109,6 @@ func FindDiseaseBySymptoms(symptoms []string) [] db.DiseaseModel {
 		db.Disease.Symptoms.HasSome(symptoms),
 	).Exec(ctx)
 
-	
 	if err != nil {
 		panic(err)
 	}
