@@ -34,12 +34,30 @@ func CreateDisease(name string, part string, symptoms []string) error {
 	return nil
 }
 
-func MatchDisease(part string, symptoms []string) {
-	diseasesBySymps := FindDiseaseBySymptoms(symptoms)
-	var disease db.DiseaseModel[]
-	for i, s := range db.DiseaseModel {
-
+func MatchDisease(part string, symptoms []string) [] db.DiseaseModel{
+	client := db.NewClient()
+	if err := client.Prisma.Connect(); err != nil {
+		panic(err)
 	}
+
+	defer func() {
+		if err := client.Prisma.Disconnect(); err != nil {
+			panic(err)
+		}
+	}()
+
+	ctx := context.Background()
+
+	disease, err := client.Disease.FindMany(
+		db.Disease.Symptoms.HasSome(symptoms),
+		db.Disease.Part.Equals(part),
+	).Exec(ctx)
+
+	if err != nil {
+		panic(err)
+	}
+
+	return disease
 }
 
 func FindDiseaseByPart(part string) [] db.DiseaseModel {
