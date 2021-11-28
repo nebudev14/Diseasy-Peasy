@@ -13,7 +13,7 @@ Change directories:
     $ cd web
 
 Install dependencies:
- 
+
      $ npm install
 
 Start the development server:

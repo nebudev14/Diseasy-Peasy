@@ -1,7 +1,15 @@
+import Head from 'next/head';
+
 export default function Home() {
   return (
-    <div className={styles.container}>
-      <h1>Diseasy-Peasy</h1>
-    </div>
-  )
+    <>
+      <Head>
+        <title>Diseasy-Peasy</title>
+      </Head>
+
+      <div className="flex flex-col items-center justify-center h-screen">
+        <h1 className=" text-9xl">AHHHHHHHHHHHH</h1>
+      </div>
+    </>
+  );
 }
